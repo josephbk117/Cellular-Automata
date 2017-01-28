@@ -82,6 +82,7 @@
             this.textBox1.Size = new System.Drawing.Size(40, 20);
             this.textBox1.TabIndex = 3;
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox1.Leave += new System.EventHandler(this.rule_set_valueChanged);
             // 
             // textBox2
             // 
@@ -91,6 +92,7 @@
             this.textBox2.Size = new System.Drawing.Size(40, 20);
             this.textBox2.TabIndex = 4;
             this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox2.Leave += new System.EventHandler(this.rule_set_valueChanged);
             // 
             // textBox3
             // 
@@ -100,6 +102,7 @@
             this.textBox3.Size = new System.Drawing.Size(40, 20);
             this.textBox3.TabIndex = 5;
             this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox3.Leave += new System.EventHandler(this.rule_set_valueChanged);
             // 
             // textBox4
             // 
@@ -109,6 +112,7 @@
             this.textBox4.Size = new System.Drawing.Size(40, 20);
             this.textBox4.TabIndex = 6;
             this.textBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox4.Leave += new System.EventHandler(this.rule_set_valueChanged);
             // 
             // textBox5
             // 
@@ -118,6 +122,7 @@
             this.textBox5.Size = new System.Drawing.Size(40, 20);
             this.textBox5.TabIndex = 7;
             this.textBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox5.Leave += new System.EventHandler(this.rule_set_valueChanged);
             // 
             // textBox6
             // 
@@ -127,6 +132,7 @@
             this.textBox6.Size = new System.Drawing.Size(40, 20);
             this.textBox6.TabIndex = 8;
             this.textBox6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox6.Leave += new System.EventHandler(this.rule_set_valueChanged);
             // 
             // textBox7
             // 
@@ -136,6 +142,7 @@
             this.textBox7.Size = new System.Drawing.Size(40, 20);
             this.textBox7.TabIndex = 9;
             this.textBox7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox7.Leave += new System.EventHandler(this.rule_set_valueChanged);
             // 
             // textBox8
             // 
@@ -145,6 +152,7 @@
             this.textBox8.Size = new System.Drawing.Size(40, 20);
             this.textBox8.TabIndex = 10;
             this.textBox8.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox8.Leave += new System.EventHandler(this.rule_set_valueChanged);
             // 
             // button2
             // 

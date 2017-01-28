@@ -121,19 +121,52 @@ namespace CellularAutomata
         }
 
         private void button2_Click(object sender, EventArgs e)
-        {           
+        {
 
-            ruleset[0] = Byte.Parse(textBox1.Text.ToString());
-            ruleset[1] = Byte.Parse(textBox2.Text.ToString());
-            ruleset[2] = Byte.Parse(textBox3.Text.ToString());
-            ruleset[3] = Byte.Parse(textBox4.Text.ToString());
-            ruleset[4] = Byte.Parse(textBox5.Text.ToString());
-            ruleset[5] = Byte.Parse(textBox6.Text.ToString());
-            ruleset[6] = Byte.Parse(textBox7.Text.ToString());
-            ruleset[7] = Byte.Parse(textBox8.Text.ToString());
-            pictureBox1.Image = null;
-            init();            
+            string[] values = new string[8];
+            try
+            {
+                ruleset[0] = Byte.Parse(textBox1.Text.ToString());
+                ruleset[1] = Byte.Parse(textBox2.Text.ToString());
+                ruleset[2] = Byte.Parse(textBox3.Text.ToString());
+                ruleset[3] = Byte.Parse(textBox4.Text.ToString());
+                ruleset[4] = Byte.Parse(textBox5.Text.ToString());
+                ruleset[5] = Byte.Parse(textBox6.Text.ToString());
+                ruleset[6] = Byte.Parse(textBox7.Text.ToString());
+                ruleset[7] = Byte.Parse(textBox8.Text.ToString());
+                pictureBox1.Image = null;
+                init();
+            }
+            catch
+            {
+                MessageBox.Show("No values for rule-set have been given");
+            }
 
+        }
+
+        private void rule_set_valueChanged(object sender, EventArgs e)
+        {
+            if(sender.Equals(textBox1) && !(textBox1.Text == "0" || textBox1.Text == "1"))
+                setDefault(textBox1);
+            if (sender.Equals(textBox2) && !(textBox2.Text == "0" || textBox2.Text == "1"))
+                setDefault(textBox2);
+            if (sender.Equals(textBox3) && !(textBox3.Text == "0" || textBox3.Text == "1"))
+                setDefault(textBox3);
+            if (sender.Equals(textBox4) && !(textBox4.Text == "0" || textBox4.Text == "1"))
+                setDefault(textBox4);
+            if (sender.Equals(textBox5) && !(textBox5.Text == "0" || textBox5.Text == "1"))
+                setDefault(textBox5);
+            if (sender.Equals(textBox6) && !(textBox6.Text == "0" || textBox6.Text == "1"))
+                setDefault(textBox6);
+            if (sender.Equals(textBox7) && !(textBox7.Text == "0" || textBox7.Text == "1"))
+                setDefault(textBox7);
+            if (sender.Equals(textBox8) && !(textBox8.Text == "0" || textBox8.Text == "1"))
+                setDefault(textBox8);
+
+        }
+        void setDefault(TextBox tb)
+        {
+            tb.Text = "1";
         }
     }
 }
