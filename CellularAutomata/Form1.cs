@@ -27,8 +27,11 @@ namespace CellularAutomata
         const int width = 400;
         List<Row> rowStack;
 
+        Point mouse_offset;
+        bool toggle = true;
         public Form1()
-        {                        
+        {
+            mouse_offset = new Point(0, 0);
             InitializeComponent();            
         }
         void init()
@@ -117,13 +120,25 @@ namespace CellularAutomata
 
         private void button3_Click(object sender, EventArgs e)
         {
-            timer1.Stop();
+            if (toggle)
+            {
+                timer1.Stop();
+                button3.Text = "Resume";
+            }
+            else
+            {
+                timer1.Start();
+                button3.Text = "Stop";
+            }
+            toggle = !toggle;
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
 
-            string[] values = new string[8];
+            rule_set_text.Text = "Rule Set Used : " + Convert.ToInt32(textBox1.Text + textBox2.Text
+                + textBox3.Text + textBox4.Text + textBox2.Text + textBox5.Text
+                + textBox6.Text + textBox7.Text, 2);
             try
             {
                 ruleset[0] = Byte.Parse(textBox1.Text.ToString());
@@ -167,6 +182,39 @@ namespace CellularAutomata
         void setDefault(TextBox tb)
         {
             tb.Text = "1";
+        }
+
+        private void form_mover(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                Point mousePos = Control.MousePosition;
+                mousePos.Offset(mouse_offset.X, mouse_offset.Y);
+                Location = mousePos;
+            }
+
+        }
+
+        private void panel1_MouseDown(object sender, MouseEventArgs e)
+        {
+            mouse_offset = new Point(-e.X, -e.Y);
+        }
+
+        private void close_button_Click(object sender, EventArgs e)
+        {
+            if(MessageBox.Show("Exit ?","Are you sure?",MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.Yes)
+                Application.Exit();
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Exit ?", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                Application.Exit();
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+            Form1.ActiveForm.MinimizeBox = false;
         }
     }
 }
