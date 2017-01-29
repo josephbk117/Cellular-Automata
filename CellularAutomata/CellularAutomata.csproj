@@ -85,10 +85,10 @@
     <None Include="Resources\CloseButton.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CloseButton1.png" />
+    <None Include="Resources\minimizeButton.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\minimizeButton.png" />
+    <None Include="Resources\mim.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CellularAutomata
@@ -14,11 +10,13 @@ namespace CellularAutomata
     {        
         Bitmap bmp;
         byte[] ruleset = new byte[8];
-        const int width = 400;
+        const int width = 300;
+        const int height = 125;
         List<Row> rowStack;
 
         Point mouse_offset;
         bool toggle = true;
+        bool fullScreen = false;
         bool hasStarted = false;
         public Form1()
         {
@@ -27,7 +25,7 @@ namespace CellularAutomata
         }
         void init()
         {
-            bmp = new Bitmap(width, 200);
+            bmp = new Bitmap(width, height);
             rowStack = new List<Row>(); 
             Random rand = new Random();
 
@@ -68,7 +66,7 @@ namespace CellularAutomata
             byte[] newRow = new byte[width];
             Row r = rowStack.ElementAt<Row>(rowStack.Count - 1);
 
-            if (rowStack.Count == 200)
+            if (rowStack.Count == height)
                 rowStack.RemoveAt(0);
 
             for (int i = 1; i < width-1; i++)
@@ -76,7 +74,7 @@ namespace CellularAutomata
                 newRow[i] = rulesMap(r.CA[i - 1], r.CA[i], r.CA[i + 1]);                
             }
             rowStack.Insert(rowStack.Count, new Row(newRow));
-            for (int i = 0; i < 200; i++)
+            for (int i = 0; i < height; i++)
             {
                 if (rowStack.Count > i)
                 {
@@ -208,7 +206,32 @@ namespace CellularAutomata
 
         private void pictureBox3_Click(object sender, EventArgs e)
         {
-            Form1.ActiveForm.MinimizeBox = false;
+            toggleFullScreen();
+        }
+        void toggleFullScreen()
+        {
+            if (fullScreen)
+                this.Bounds = Screen.PrimaryScreen.Bounds;
+            else
+                this.Bounds = new Rectangle(0, 0, 720, 540);
+            fullScreen = !fullScreen;
+        }
+        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        {
+            try
+            {
+                e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                e.Graphics.DrawImage(
+                   bmp,
+                    new Rectangle(0, 0, pictureBox1.Width, pictureBox1.Height),
+                    // destination rectangle 
+                    0,
+                    0,           // upper-left corner of source rectangle
+                    bmp.Width,       // width of source rectangle
+                    bmp.Height,      // height of source rectangle
+                    GraphicsUnit.Pixel);
+            }
+            catch { }
         }
     }
 }

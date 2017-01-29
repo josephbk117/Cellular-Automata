@@ -73,6 +73,16 @@ namespace CellularAutomata.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap mim {
+            get {
+                object obj = ResourceManager.GetObject("mim", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap minimizeButton {
             get {
                 object obj = ResourceManager.GetObject("minimizeButton", resourceCulture);
