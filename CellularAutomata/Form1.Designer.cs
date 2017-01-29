@@ -233,9 +233,9 @@
             this.rule_set_text.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.rule_set_text.Location = new System.Drawing.Point(620, 64);
             this.rule_set_text.Name = "rule_set_text";
-            this.rule_set_text.Size = new System.Drawing.Size(165, 24);
+            this.rule_set_text.Size = new System.Drawing.Size(155, 24);
             this.rule_set_text.TabIndex = 14;
-            this.rule_set_text.Text = "Rule Set Used : 23";
+            this.rule_set_text.Text = "Rule Set Used : 0";
             this.rule_set_text.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // Form1

@@ -11,24 +11,15 @@ using System.Windows.Forms;
 namespace CellularAutomata
 {
     public partial class Form1 : Form
-    {
-        class Row
-        {
-            public byte[] CA;
-
-            public Row(byte[] content)
-            {
-                CA = new byte[content.Length];
-                CA = content;
-            }
-        }
+    {        
         Bitmap bmp;
-        byte[] ruleset ={ 1, 0, 1, 1, 1, 0, 0, 0 };
+        byte[] ruleset = new byte[8];
         const int width = 400;
         List<Row> rowStack;
 
         Point mouse_offset;
         bool toggle = true;
+        bool hasStarted = false;
         public Form1()
         {
             mouse_offset = new Point(0, 0);
@@ -42,12 +33,8 @@ namespace CellularAutomata
 
             byte[] buffer = new byte[width];
             for (int i = 0; i < width; i++)
-            {
-                /*if (rand.Next(0, 2) == 1)
-                    buffer[i] = 1;
-                else
-                    buffer[i] = 0;*/
-                buffer[i] = 1;
+            {                
+                buffer[i] = 0;
             }
             rowStack.Insert(rowStack.Count, new Row(buffer));
             timer1.Interval = 1;
@@ -57,7 +44,7 @@ namespace CellularAutomata
         byte rulesMap(byte left, byte center, byte right)
         {
             if (left == 0 && center == 0 && right == 0)
-                return ruleset[0];
+                return ruleset[0]; 
             if (left == 0 && center == 0 && right == 1)
                 return ruleset[1];
             if (left == 0 && center == 1 && right == 0)
@@ -120,6 +107,12 @@ namespace CellularAutomata
 
         private void button3_Click(object sender, EventArgs e)
         {
+            if(hasStarted)
+                timerToggle();
+        }
+
+        void timerToggle()
+        {
             if (toggle)
             {
                 timer1.Stop();
@@ -135,10 +128,10 @@ namespace CellularAutomata
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            hasStarted = true;
             rule_set_text.Text = "Rule Set Used : " + Convert.ToInt32(textBox1.Text + textBox2.Text
-                + textBox3.Text + textBox4.Text + textBox2.Text + textBox5.Text
-                + textBox6.Text + textBox7.Text, 2);
+                + textBox3.Text + textBox4.Text + textBox5.Text + textBox6.Text
+                + textBox7.Text + textBox8.Text, 2);
             try
             {
                 ruleset[0] = Byte.Parse(textBox1.Text.ToString());
@@ -151,6 +144,7 @@ namespace CellularAutomata
                 ruleset[7] = Byte.Parse(textBox8.Text.ToString());
                 pictureBox1.Image = null;
                 init();
+                
             }
             catch
             {
@@ -161,7 +155,7 @@ namespace CellularAutomata
 
         private void rule_set_valueChanged(object sender, EventArgs e)
         {
-            if(sender.Equals(textBox1) && !(textBox1.Text == "0" || textBox1.Text == "1"))
+            if (sender.Equals(textBox1) && !(textBox1.Text == "0" || textBox1.Text == "1"))
                 setDefault(textBox1);
             if (sender.Equals(textBox2) && !(textBox2.Text == "0" || textBox2.Text == "1"))
                 setDefault(textBox2);
@@ -202,13 +196,13 @@ namespace CellularAutomata
 
         private void close_button_Click(object sender, EventArgs e)
         {
-            if(MessageBox.Show("Exit ?","Are you sure?",MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.Yes)
+            if(MessageBox.Show("Are you sure?", "Exit ?",MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.Yes)
                 Application.Exit();
         }
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Exit ?", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Are you sure ? ", "Exit ? ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 Application.Exit();
         }
 
