@@ -11,28 +11,44 @@ namespace CellularAutomata
         Bitmap bmp;
         byte[] ruleset = new byte[8];
         const int width = 300;
-        const int height = 125;
+        const int height = 100;
         List<Row> rowStack;
 
         Point mouse_offset;
         bool toggle = true;
         bool fullScreen = false;
         bool hasStarted = false;
+        TextBox[] binaryArray;
         public Form1()
         {
+
             mouse_offset = new Point(0, 0);
-            InitializeComponent();            
+            InitializeComponent();
+            binaryArray = new TextBox[8];
+            binaryArray[0] = textBox1;
+            binaryArray[1] = textBox2;
+            binaryArray[2] = textBox3;
+            binaryArray[3] = textBox4;
+            binaryArray[4] = textBox5;
+            binaryArray[5] = textBox6;
+            binaryArray[6] = textBox7;
+            binaryArray[7] = textBox8;
+            for (int i = 0; i < 8; i++)
+                binaryArray[i].Enabled = false;
+
         }
         void init()
         {
             bmp = new Bitmap(width, height);
             rowStack = new List<Row>(); 
             Random rand = new Random();
-
             byte[] buffer = new byte[width];
+            
             for (int i = 0; i < width; i++)
-            {                
+            {
                 buffer[i] = 0;
+                if (i == width / 2)
+                    buffer[i] = 1;
             }
             rowStack.Insert(rowStack.Count, new Row(buffer));
             timer1.Interval = 1;
@@ -126,20 +142,41 @@ namespace CellularAutomata
 
         private void button2_Click(object sender, EventArgs e)
         {
+            button3.Text = "Stop";
             hasStarted = true;
-            rule_set_text.Text = "Rule Set Used : " + Convert.ToInt32(textBox1.Text + textBox2.Text
-                + textBox3.Text + textBox4.Text + textBox5.Text + textBox6.Text
-                + textBox7.Text + textBox8.Text, 2);
+            if (!checkBox1.Checked)
+            {
+                if (RuleSet_textBox.Text == String.Empty) {
+
+                    MessageBox.Show("No value for rule set");
+                    return;
+                }
+                Int32 value = Convert.ToInt32(RuleSet_textBox.Text);
+                char[] sval = new char[8];
+                string str = Convert.ToString(value, 2);
+                int inserts = 8 - str.Length;
+                for (int i = 0; i < inserts; i++)
+                    str = str.Insert(0, "0");
+                sval = str.ToCharArray();
+
+                for (int i = 0; i < 8; i++)
+                    binaryArray[i].Text = ""+sval[i];
+            }
+
             try
             {
-                ruleset[0] = Byte.Parse(textBox1.Text.ToString());
-                ruleset[1] = Byte.Parse(textBox2.Text.ToString());
-                ruleset[2] = Byte.Parse(textBox3.Text.ToString());
-                ruleset[3] = Byte.Parse(textBox4.Text.ToString());
-                ruleset[4] = Byte.Parse(textBox5.Text.ToString());
-                ruleset[5] = Byte.Parse(textBox6.Text.ToString());
-                ruleset[6] = Byte.Parse(textBox7.Text.ToString());
-                ruleset[7] = Byte.Parse(textBox8.Text.ToString());
+                RuleSet_textBox.Text = ""+Convert.ToInt32(textBox1.Text + textBox2.Text
+                + textBox3.Text + textBox4.Text + textBox5.Text + textBox6.Text
+                + textBox7.Text + textBox8.Text, 2);
+            
+                ruleset[0] = Byte.Parse(textBox8.Text.ToString());
+                ruleset[1] = Byte.Parse(textBox7.Text.ToString());
+                ruleset[2] = Byte.Parse(textBox6.Text.ToString());
+                ruleset[3] = Byte.Parse(textBox5.Text.ToString());
+                ruleset[4] = Byte.Parse(textBox4.Text.ToString());
+                ruleset[5] = Byte.Parse(textBox3.Text.ToString());
+                ruleset[6] = Byte.Parse(textBox2.Text.ToString());
+                ruleset[7] = Byte.Parse(textBox1.Text.ToString());
                 pictureBox1.Image = null;
                 init();
                 
@@ -153,22 +190,11 @@ namespace CellularAutomata
 
         private void rule_set_valueChanged(object sender, EventArgs e)
         {
-            if (sender.Equals(textBox1) && !(textBox1.Text == "0" || textBox1.Text == "1"))
-                setDefault(textBox1);
-            if (sender.Equals(textBox2) && !(textBox2.Text == "0" || textBox2.Text == "1"))
-                setDefault(textBox2);
-            if (sender.Equals(textBox3) && !(textBox3.Text == "0" || textBox3.Text == "1"))
-                setDefault(textBox3);
-            if (sender.Equals(textBox4) && !(textBox4.Text == "0" || textBox4.Text == "1"))
-                setDefault(textBox4);
-            if (sender.Equals(textBox5) && !(textBox5.Text == "0" || textBox5.Text == "1"))
-                setDefault(textBox5);
-            if (sender.Equals(textBox6) && !(textBox6.Text == "0" || textBox6.Text == "1"))
-                setDefault(textBox6);
-            if (sender.Equals(textBox7) && !(textBox7.Text == "0" || textBox7.Text == "1"))
-                setDefault(textBox7);
-            if (sender.Equals(textBox8) && !(textBox8.Text == "0" || textBox8.Text == "1"))
-                setDefault(textBox8);
+            for (int i = 0; i < 8; i++)
+            {
+                if (sender.Equals(binaryArray[i]) && !(binaryArray[i].Text == "0" || binaryArray[i].Text == "1"))
+                    setDefault(binaryArray[i]);
+            }
 
         }
         void setDefault(TextBox tb)
@@ -232,6 +258,39 @@ namespace CellularAutomata
                     GraphicsUnit.Pixel);
             }
             catch { }
+        }
+
+        private void pictureBox4_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void textBox6_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox1_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.CheckState == CheckState.Checked)
+            {
+                RuleSet_textBox.Enabled = false;
+                for (int i = 0; i < 8; i++)
+                    binaryArray[i].Enabled = true;
+            }
+            else
+            {
+                RuleSet_textBox.Enabled = true;
+                for (int i = 0; i < 8; i++)
+                    binaryArray[i].Enabled = false;
+            }
+        }
+
+        private void RuleSet_textBox_Validated(object sender, EventArgs e)
+        {
+            int val = Convert.ToInt32(RuleSet_textBox.Text);
+            if (val > 255)
+                RuleSet_textBox.Text = "255";
         }
     }
 }
