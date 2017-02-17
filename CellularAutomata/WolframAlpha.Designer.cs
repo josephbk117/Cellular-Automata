@@ -1,6 +1,6 @@
 ﻿namespace CellularAutomata
 {
-    partial class Form1
+    partial class WolframAlpha
     {
         /// <summary>
         /// Required designer variable.

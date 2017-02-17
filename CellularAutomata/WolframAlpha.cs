@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace CellularAutomata
 {
-    public partial class Form1 : Form
+    public partial class WolframAlpha : Form
     {        
         Bitmap bmp;
         byte[] ruleset = new byte[8];
@@ -19,7 +19,7 @@ namespace CellularAutomata
         bool fullScreen = false;
         bool hasStarted = false;
         TextBox[] binaryArray;
-        public Form1()
+        public WolframAlpha()
         {
 
             mouse_offset = new Point(0, 0);
