@@ -12,8 +12,8 @@ namespace CellularAutomata
 {
     public partial class ConwayGameOfLife : Form
     {
-        const int WIDTH = 50;
-        const int HEIGHT = 50;
+        const int WIDTH = 225;
+        const int HEIGHT = 225;
         Bitmap bmp;
         public ConwayGameOfLife()
         {
@@ -23,38 +23,20 @@ namespace CellularAutomata
         }
         void init()
         {
+            Random r = new Random();
             bmp = new Bitmap(WIDTH, HEIGHT);
             for(int i=0;i<WIDTH;i++)
             {
                 for(int j=0;j<HEIGHT;j++)
                 {
-                    bmp.SetPixel(i, j, Color.White);
+                    if (r.Next(0, 50) == 1)
+                        bmp.SetPixel(i, j, Color.White);
+                    else
+                        bmp.SetPixel(i, j, Color.Black);
                 }
             }
-            bmp.SetPixel(0, 0, Color.Black);
-            bmp.SetPixel(1, 0, Color.Black);
-            bmp.SetPixel(2, 1, Color.Black);
-            bmp.SetPixel(0, 2, Color.Black);
-            bmp.SetPixel(1, 1, Color.Black);
-            bmp.SetPixel(2, 2, Color.Black);
-            bmp.SetPixel(2, 3, Color.Black);
-            bmp.SetPixel(2, 4, Color.Black);
-            bmp.SetPixel(2, 7, Color.Black);
-            bmp.SetPixel(2, 8, Color.Black);
-
-            bmp.SetPixel(3, 2, Color.Black);
-            bmp.SetPixel(5, 2, Color.Black);
-            bmp.SetPixel(5, 1, Color.Black);
-            bmp.SetPixel(6, 6, Color.Black);
-            bmp.SetPixel(6, 8, Color.Black);
-            bmp.SetPixel(7, 3, Color.Black);
-            bmp.SetPixel(8, 5, Color.Black);
-
-            bmp.SetPixel(WIDTH / 2, HEIGHT / 2, Color.Black);
-            bmp.SetPixel(WIDTH / 2+1, HEIGHT / 2, Color.Black);
-            bmp.SetPixel(WIDTH / 2 + 1, HEIGHT / 2-1, Color.Black);
-            bmp.SetPixel(WIDTH / 2 + 2, HEIGHT / 2 - 1, Color.Black);
-            pictureBox1.Image = bmp;
+            
+            //pictureBox1.Image = bmp;
         }
         void generate()
         {
@@ -95,14 +77,54 @@ namespace CellularAutomata
 
                 }
             }
-            pictureBox1.Image = null;
-            pictureBox1.Image = bmp;
+            //pictureBox1.Image = null;
+            //pictureBox1.Image = bmp;
+
             
         }
 
         private void timer_Udate(object sender, EventArgs e)
         {
-            generate();            
+            generate();  
+            this.Refresh();
+        }
+
+        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        {
+            /*try
+            {
+                e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                e.Graphics.DrawImage(
+                   bmp,
+                    new Rectangle( bmp.Width/2, bmp.Height/2, 700, 700),
+                    // destination rectangle 
+                    0,
+                    0,           // upper-left corner of source rectangle
+                    bmp.Width,       // width of source rectangle
+                    bmp.Height,      // height of source rectangle
+                    GraphicsUnit.Pixel);
+            }
+            catch { }*/
+        }
+
+        private void ConwayGameOfLife_Paint(object sender, PaintEventArgs e)
+        {
+            
+            try
+            {
+                e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                e.Graphics.DrawImage(
+                   bmp,
+                    new Rectangle(0, 0, this.Bounds.Height-50, this.Bounds.Height-50),
+                    // destination rectangle 
+                    0,
+                    0,           // upper-left corner of source rectangle
+                    bmp.Width,       // width of source rectangle
+                    bmp.Height,      // height of source rectangle
+                    GraphicsUnit.Pixel);
+            }
+            catch { }
         }
     }
+    
 }
