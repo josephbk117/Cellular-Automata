@@ -53,6 +53,12 @@
     <Compile Include="ConwayGameOfLife.Designer.cs">
       <DependentUpon>ConwayGameOfLife.cs</DependentUpon>
     </Compile>
+    <Compile Include="StartUpForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StartUpForm.Designer.cs">
+      <DependentUpon>StartUpForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="WolframAlpha.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -64,6 +70,9 @@
     <Compile Include="Row.cs" />
     <EmbeddedResource Include="ConwayGameOfLife.resx">
       <DependentUpon>ConwayGameOfLife.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StartUpForm.resx">
+      <DependentUpon>StartUpForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WolframAlpha.resx">
       <DependentUpon>WolframAlpha.cs</DependentUpon>

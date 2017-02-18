@@ -15,9 +15,8 @@ namespace CellularAutomata
         static void Main()
         {
             Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new WolframAlpha());
-            Application.Run(new ConwayGameOfLife());
+            Application.SetCompatibleTextRenderingDefault(false);            
+            Application.Run(new StartUpForm());
         }
     }
 }
