@@ -12,118 +12,146 @@ namespace CellularAutomata
 {
     public partial class ConwayGameOfLife : Form
     {
-        const int WIDTH = 225;
-        const int HEIGHT = 225;
+        public Point currentPoint = new Point();
+        public Point prevPoint = new Point();
+        public Graphics g;
+        Bitmap surface;
+        Graphics graph;
+
+
+        const int WIDTH = 50;
+        const int HEIGHT = 50;
         Bitmap bmp;
+        bool canSim = false;
+
+        PaintEventArgs pe;
         public ConwayGameOfLife()
         {
             InitializeComponent();
-            init();
-            timer.Start();
+            g = panel.CreateGraphics();
+            surface = new Bitmap(100, 100);
+            graph = Graphics.FromImage(surface);
+            //panel.BackgroundImage = surface;
+           // panel.BackgroundImageLayout = ImageLayout.Zoom;
+           
         }
-        void init()
-        {
-            Random r = new Random();
-            bmp = new Bitmap(WIDTH, HEIGHT);
-            for(int i=0;i<WIDTH;i++)
-            {
-                for(int j=0;j<HEIGHT;j++)
-                {
-                    if (r.Next(0, 50) == 1)
-                        bmp.SetPixel(i, j, Color.White);
-                    else
-                        bmp.SetPixel(i, j, Color.Black);
-                }
-            }
-            
-            //pictureBox1.Image = bmp;
-        }
+       
+           
         void generate()
         {
             
-            for(int i=1;i<WIDTH-1;i++)
+            for(int i=1;i<surface.Width-1;i++)
             {
-                for(int j=1;j<HEIGHT-1;j++)
+                for(int j=1;j<surface.Height-1;j++)
                 {
 
                     int neighbourState = 0;
                     for(int p = -1; p<=1 ;p++)
                     {
                         for(int q = -1; q<=1 ;q++)
-                        {
-
-                            //Console.WriteLine("Color at : " + (i + p) + "," + (j + q) + " = " + bmp.GetPixel(i + p, j + q));
-                            if (bmp.GetPixel(i+p,j+q).R == 0)
-                            {
-                                //Console.WriteLine("inside neighbout loop");
+                        {                            
+                            if (surface.GetPixel(i+p,j+q).R == 0)
+                            {                                
                                 neighbourState++;
                             }
                         }
                     }
-                    //Console.WriteLine("Neighbour state= " + neighbourState);
+                    
                     bool currentCellAlive = false;
-                    if (bmp.GetPixel(i, j).R == 0)
+                    if (surface.GetPixel(i, j).R == 0)
                     {
                         currentCellAlive = true;
                         neighbourState--;       //Remove the current cell state from the neighbour calculation
                     }
 
                     //Rules of life
-                    if (currentCellAlive && neighbourState < 2) bmp.SetPixel(i, j, Color.White);
-                    else if (currentCellAlive && neighbourState > 3) bmp.SetPixel(i, j, Color.White);
-                    else if (!currentCellAlive && neighbourState == 3) bmp.SetPixel(i, j, Color.Black);
+                    if (currentCellAlive && neighbourState < 2) surface.SetPixel(i, j, Color.White);
+                    else if (currentCellAlive && neighbourState > 3) surface.SetPixel(i, j, Color.White);
+                    else if (!currentCellAlive && neighbourState == 3) surface.SetPixel(i, j, Color.Black);
                     else
-                        bmp.SetPixel(i, j, bmp.GetPixel(i, j));
+                        surface.SetPixel(i, j, surface.GetPixel(i, j));
 
                 }
             }
-            //pictureBox1.Image = null;
-            //pictureBox1.Image = bmp;
-
-            
+           
         }
 
         private void timer_Udate(object sender, EventArgs e)
         {
-            generate();  
-            this.Refresh();
+            if (canSim)
+            {
+                generate();                
+                panel.Refresh();
+            }
         }
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
-            /*try
-            {
-                e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-                e.Graphics.DrawImage(
-                   bmp,
-                    new Rectangle( bmp.Width/2, bmp.Height/2, 700, 700),
-                    // destination rectangle 
-                    0,
-                    0,           // upper-left corner of source rectangle
-                    bmp.Width,       // width of source rectangle
-                    bmp.Height,      // height of source rectangle
-                    GraphicsUnit.Pixel);
-            }
-            catch { }*/
+            
         }
 
         private void ConwayGameOfLife_Paint(object sender, PaintEventArgs e)
         {
             
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+           
+            canSim = true;
+        }
+
+        private void ConwayGameOfLife_MouseClick(object sender, MouseEventArgs e)
+        {
+           
+        }
+
+        private void panel_MouseMove(object sender, MouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Left)
+            {
+                int xPos = e.Location.X / 6;
+                int yPos = e.Location.Y/ 4;
+
+                currentPoint = new Point(xPos, yPos);
+                graph.DrawLine(new Pen(Color.Black,2f), prevPoint, currentPoint);
+                prevPoint = currentPoint;
+                panel.Invalidate();
+            }
+            else if(e.Button == MouseButtons.Right)
+            {
+                int xPos = e.Location.X / 6;
+                int yPos = e.Location.Y / 4;
+
+                currentPoint = new Point(xPos, yPos);
+                graph.DrawLine(new Pen(Color.White, 2f), prevPoint, currentPoint);
+                prevPoint = currentPoint;
+                panel.Invalidate();
+            }
+        }
+
+        private void panel_MouseDown(object sender, MouseEventArgs e)
+        {
+            prevPoint = e.Location;
+        }
+
+        private void panel_Paint(object sender, PaintEventArgs e)
+        {
             try
             {
                 e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
                 e.Graphics.DrawImage(
-                   bmp,
-                    new Rectangle(0, 0, this.Bounds.Height-50, this.Bounds.Height-50),
+                   surface,
+                    new Rectangle(0, 0, panel.Width, panel.Height),
                     // destination rectangle 
                     0,
                     0,           // upper-left corner of source rectangle
-                    bmp.Width,       // width of source rectangle
-                    bmp.Height,      // height of source rectangle
+                    surface.Width,       // width of source rectangle
+                    surface.Height,      // height of source rectangle
                     GraphicsUnit.Pixel);
             }
             catch { }
+
         }
     }
     
